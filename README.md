@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE) 
 [![Python 3.9+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-390/) 
 
-This is the repo for our EMNLP 2023 main conference paper "[Enhancing Uncertainty-Based Hallucination Detection with Stronger Focus](https://arxiv.org/abs/2311.13230)".
+This is the repo for our EMNLP 2023 main conference paper "**Enhancing Uncertainty-Based Hallucination Detection with Stronger Focus**"[[Arxiv]](https://arxiv.org/abs/2311.13230) [[Poster]](assets/FOCUS_POSTER.pdf) [[PPT]](assets/Enhancing%20Uncertainty-Based%20Hallucination%20Detection%20with%20Stronger%20Focus.pptx).
 ![](assets/overall.png)
 ## Reproduction
 Take the llama-30b-SFT version as an example, to reproduce our results on `wiki_bio_gpt3_hallucination` dataset, you can run
