@@ -73,3 +73,13 @@ This will save the calculated token idf file in the `token_frequency_data` folde
 
 
 ***When running with llama-65b (float16), please ensure that at least 140 GiB GPU memory is available (more is needed for longer input sequence lengths).**
+
+## Citation
+```bibtex
+@article{zhang2023enhancing,
+  title={Enhancing Uncertainty-Based Hallucination Detection with Stronger Focus},
+  author={Zhang, Tianhang and Qiu, Lin and Guo, Qipeng and Deng, Cheng and Zhang, Yue and Zhang, Zheng and Zhou, Chenghu and Wang, Xinbing and Fu, Luoyi},
+  journal={arXiv preprint arXiv:2311.13230},
+  year={2023}
+}
+```
