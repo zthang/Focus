@@ -2,7 +2,11 @@ import argparse
 import spacy
 import torch
 from transformers import AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from models.modeling_opt import OPTForCausalLM
 from models.modeling_llama import LlamaForCausalLM
+from models.modeling_gpt_neox import GPTNeoXForCausalLM
+from models.modeling_gptj import GPTJForCausalLM
+from models.modeling_mistral import MistralForCausalLM
 class WikiBioTask:
     def __init__(self, args):
         self.args = args
@@ -14,12 +18,41 @@ class WikiBioTask:
         self.nlp = spacy.load('en_core_web_sm')
         self.left_mark = '<'
         self.right_mark = '>'
-        self.tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
-        self.model = LlamaForCausalLM.from_pretrained(
+        if 'opt' in args.model_path:
+            LLM = OPTForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'gpt-j' in args.model_path:
+            LLM = GPTJForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'gpt-neox' in args.model_path or 'RedPajama' in args.model_path:
+            LLM = GPTNeoXForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'Llama-2' in args.model_path:
+            from models.modeling_llama2 import LlamaForCausalLM
+            LLM = LlamaForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'llama' in args.model_path or 'vicuna' in args.model_path.lower() or 'TheBloke' in args.model_path:
+            LLM = LlamaForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'falcon-7b' in args.model_path:
+            from models.modeling_RW import RWForCausalLM
+            LLM = RWForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'falcon-40b' in args.model_path:
+            from models.modeling_RW_40b import RWForCausalLM
+            LLM = RWForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        elif 'mistralai' in args.model_path:
+            LLM = MistralForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+        self.tokenizer = tokenizer
+        self.model = LLM.from_pretrained(
             args.model_path,
+            trust_remote_code=True,
             device_map="auto",
             torch_dtype=torch.float16,
-            cache_dir="/home/ubuntu/huggingface_models"
+            low_cpu_mem_usage=args.low_cpu_mem_usage,
+            cache_dir="/home/ubuntu/huggingface_models",
         )
         self.model.p = args.rho
         if not self.args.use_penalty:

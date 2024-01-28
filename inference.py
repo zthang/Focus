@@ -3,15 +3,16 @@ from task import WikiBioTask
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--task", type=str, default="medical")
+    parser.add_argument("--task", type=str, default="wikibio")
     parser.add_argument("--model_path", type=str, default="/weights/llama/hf/")
-    parser.add_argument("--only_keyword", action="store_true")
-    parser.add_argument("--use_penalty", action="store_true")
-    parser.add_argument("--add_type", action="store_true")
-    parser.add_argument("--use_entropy", action="store_true")
-    parser.add_argument("--use_idf", action="store_true")
+    parser.add_argument("--only_keyword", action="store_true", default=True)
+    parser.add_argument("--use_penalty", action="store_true", default=True)
+    parser.add_argument("--add_type", action="store_true", default=True)
+    parser.add_argument("--use_entropy", action="store_true", default=True)
+    parser.add_argument("--use_idf", action="store_true", default=True)
     parser.add_argument("--gamma", type=float, default=0.9)
     parser.add_argument("--rho", type=float, default=0.01)
+    parser.add_argument("--low_cpu_mem_usage", action="store_true", default=True)
     args = parser.parse_args()
     if args.task == "wikibio":
         concepts = [

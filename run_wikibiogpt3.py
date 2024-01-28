@@ -10,6 +10,7 @@ from models.modeling_opt import OPTForCausalLM
 from models.modeling_llama import LlamaForCausalLM
 from models.modeling_gpt_neox import GPTNeoXForCausalLM
 from models.modeling_gptj import GPTJForCausalLM
+from models.modeling_mistral import MistralForCausalLM
 from tqdm import tqdm
 import numpy as np
 import scipy
@@ -269,7 +270,7 @@ def get_human_passage_score(idx):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_path", type=str, default="/weights/llama/hf/")
-    parser.add_argument("--low_cpu_mem_usage", action="store_true")
+    parser.add_argument("--low_cpu_mem_usage", action="store_true", default=True)
     args = parser.parse_args()
     model_paths = [args.model_path]
     for model_path in model_paths:
@@ -285,10 +286,10 @@ if __name__ == "__main__":
         elif 'Llama-2' in model_path:
             from models.modeling_llama2 import LlamaForCausalLM
             LLM = LlamaForCausalLM
-            tokenizer = AutoTokenizer.from_pretrained("/home/ubuntu/huggingface_models/llama-65b", use_fast=True)
+            tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
         elif 'llama' in model_path or 'vicuna' in model_path.lower() or 'TheBloke' in model_path:
             LLM = LlamaForCausalLM
-            tokenizer = AutoTokenizer.from_pretrained("/home/ubuntu/huggingface_models/llama-65b", use_fast=True)
+            tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
         elif 'falcon-7b' in model_path:
             from models.modeling_RW import RWForCausalLM
             LLM = RWForCausalLM
@@ -296,6 +297,9 @@ if __name__ == "__main__":
         elif 'falcon-40b' in model_path:
             from models.modeling_RW_40b import RWForCausalLM
             LLM = RWForCausalLM
+            tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
+        elif 'mistralai' in model_path:
+            LLM = MistralForCausalLM
             tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
 
         model = LLM.from_pretrained(
