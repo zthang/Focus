@@ -978,7 +978,7 @@ class MistralForCausalLM(MistralPreTrainedModel):
         self.post_init()
         self.p = 0.01
         self.token_idf = np.zeros(self.config.vocab_size, dtype=np.float)
-        token_idf = pickle.load(open("token_frequency_data/token_idf_llama.pkl", "rb"))
+        token_idf = pickle.load(open("token_frequency_data/token_idf_Mistral-7B-v0.1.pkl", "rb"))
         self.token_idf[:len(token_idf)] = token_idf
 
     def entropy(self, p):
